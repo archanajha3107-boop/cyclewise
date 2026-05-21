@@ -1,0 +1,448 @@
+# Product Requirements Document (PRD) — CycleWise
+
+**Document type:** Product Planning  
+**Phase:** Pre-development  
+**Version:** 1.0  
+**Last updated:** May 2026  
+**Author:** Archana (Founder, CycleWise)  
+**Status:** Active — in development
+
+---
+
+## 1. Product Overview
+
+### What Is CycleWise?
+
+CycleWise is a web-first PMOS (Polyendocrine Metabolic Ovarian Syndrome, previously known as PCOS) early detection and management platform built specifically for Indian women and teenage girls. It combines a school-deployed screening tool with a daily-use web application that provides cycle tracking, emotional companionship, community support, and doctor visit preparation tools.
+
+### The One-Line Description
+
+> *CycleWise is the first platform that finds girls with PMOS before they know they have it — and supports them every day after.*
+
+### Why This Exists
+
+PMOS was officially renamed from PCOS on May 12, 2026 in a landmark Lancet paper following input from 22,000 patients, doctors, and researchers globally. Despite this, the condition remains massively underdiagnosed — an estimated 70% of people with PMOS do not know they have it. In India, prevalence reaches up to 22.5% in some population groups, yet no India-specific platform exists to address early detection or culturally relevant daily management.
+
+CycleWise was founded by someone who has lived with PMOS for 5 years. This is not a research project. It is a product built from personal experience, for the people who most need it.
+
+---
+
+## 2. The Problem
+
+### Problem Statement
+
+Millions of Indian girls and women are living with PMOS without a diagnosis, without culturally relevant support, and without anyone who truly understands what they are experiencing — clinically or emotionally.
+
+### Specific Problems Being Solved
+
+**Problem 1 — Detection happens too late**  
+Most women are diagnosed with PMOS years after symptoms begin. The average diagnostic delay in India is approximately 2 years. During this time, the condition progresses untreated and the emotional impact compounds.
+
+**Problem 2 — Schools have no screening mechanism**  
+Teenage girls aged 13–18 are the highest-risk window for PMOS onset. There is currently no structured, accessible screening programme in Indian schools. Girls leave school without ever knowing their symptoms have a name.
+
+**Problem 3 — Existing apps are not built for Indian women**  
+Every major period tracking or PMOS management app uses Western food references, Western cultural context, and prediction algorithms that fail for irregular cycles — which is the defining symptom of PMOS.
+
+**Problem 4 — The emotional reality of PMOS is completely ignored**  
+Research confirms that women with PMOS have a 2.5x higher probability of depression, significantly higher rates of anxiety, reduced self-esteem, and identity disruption. No existing app addresses this. No companion feature. No emotional support. No acknowledgement that this condition affects who you feel you are — not just your body.
+
+**Problem 5 — Girls have no one to talk to who truly understands**  
+Family dismisses symptoms as normal. Friends don't understand the emotional intensity. Doctors give 10-minute appointments. Women with PMOS are consistently left alone with an experience that is difficult to explain and even harder to manage without support.
+
+---
+
+## 3. Target Users
+
+### Primary Users
+
+| User | Age | Context |
+|---|---|---|
+| Undiagnosed school girl | 13–18 | Reached through school screening |
+| College student managing alone | 18–22 | Daily app user, emotional support primary need |
+| Working woman managing long-term | 23–30 | Doctor prep tools, symptom tracking primary need |
+
+### Secondary Users
+
+| User | Context |
+|---|---|
+| Mother of diagnosed teenager | Needs plain-language guidance on next steps |
+| Rural girl with limited healthcare access | Screening result + parent PDF may be her only medical guidance |
+
+### Full persona documentation: [personas.md](personas.md)
+
+---
+
+## 4. Product Architecture
+
+CycleWise is a two-part product:
+
+```
+Part 1 — PMOS Screening Tool (Typeform)
+    School visits → QR code → form → risk score → PDF report → app download
+
+Part 2 — CycleWise Web Application
+    Daily tracking + Saathi companion + community + doctor prep tools
+```
+
+### Platform Strategy
+
+**Phase 1 (Launch): Web application**  
+Deployed on Vercel. Free to access from any phone browser. No installation required. School QR codes open directly in browser. This allows real user acquisition before investing in native app development.
+
+**Phase 2 (Post 500 users): Flutter mobile app**  
+Converted from web to Flutter for Android. Existing web users migrate to app. Play Store submission only after real user base is established.
+
+**Language:** English only at launch. Hindi and regional languages added via i18n in Phase 2.
+
+---
+
+## 5. Features — Detailed Requirements
+
+---
+
+### Feature 1: PMOS Screening Tool
+
+**Purpose:** Reach girls in schools before they know they have PMOS. Provide a risk score and connect them to care.
+
+**Platform:** Typeform (external, no development required at launch)
+
+**Flow:**
+```
+School registers → receives QR code and briefing document
+Girl scans QR code on phone → opens Typeform in browser
+Answers 15–18 questions → receives risk score
+Score displayed with personalised message
+PDF report generated → downloadable to share with parent or doctor
+If score > 60 → CycleWise app download link shown
+```
+
+**Question categories and weights:**
+
+| Category | Questions | Weight |
+|---|---|---|
+| Menstrual irregularity | Cycle regularity, frequency, duration, flow | 40 points |
+| Physical symptoms | Facial hair, scalp hair loss, acne, dark patches, weight changes | 30 points |
+| Family history | PMOS in family, Type 2 diabetes, insulin resistance | 15 points |
+| Emotional and energy symptoms | Fatigue, mood swings, anxiety, low confidence | 15 points |
+
+**Risk score bands:**
+
+| Score | Band | Response |
+|---|---|---|
+| 0–35 | Low risk | Awareness message + PMOS education |
+| 36–60 | Moderate risk | Recommend monitoring + app link |
+| 61–75 | High risk | Strongly recommend gynaecologist + app link |
+| 76–100 | Very high risk | Urgent gynaecologist recommendation + parent guide |
+
+**PDF Report contents:**
+- Risk score displayed visually (not alarmingly)
+- Plain-language explanation of what the score means
+- List of symptoms the user reported
+- What PMOS is — in simple language, not medical jargon
+- What the next step is (gynaecologist visit)
+- Questions to ask the doctor
+- Parent section — separate page explaining PMOS to a parent with low health literacy
+
+**Important constraint:** The tool does not diagnose PMOS. It screens for risk indicators and recommends professional consultation. All language reflects this clearly.
+
+---
+
+### Feature 2: Saathi — Emotional Companion
+
+**Purpose:** Provide genuine emotional companionship and gentle practical support to PMOS users every day — not just around cycle phases.
+
+**Philosophy:** Saathi is not a chatbot. She is not a cycle phase notification system. She is a persistent, caring presence that is available any time the user needs to talk — day 1 or day 365, regardless of where she is in her cycle.
+
+**Core design principles:**
+
+1. **Available 365 days** — No cycle dependency to access Saathi. She is always there.
+2. **She asks before she advises** — Acknowledges feelings first, always. Suggestions come only after.
+3. **She notices** — Checks in if user has been away. Connects patterns across sessions.
+4. **She never brings up cycles unless the user does** — This is not a cycle notification with a chat window.
+5. **She directs gently** — When something sounds serious she stays warm and moves slowly toward suggesting support.
+6. **She understands PMOS emotional reality specifically** — Trained on the specific emotional experiences of PMOS including guilt without cause, emotional flooding, attachment anxiety, physical-emotional overlap, isolation, and identity confusion.
+
+**Emotional states Saathi is trained to recognise and respond to:**
+
+| Emotional State | Clinical Basis | How Saathi Responds |
+|---|---|---|
+| Guilt without clear cause | Hormonal impact on emotional regulation | Validates without enabling; gently separates behaviour from identity |
+| Feeling like a bad person | Low self-esteem linked to PMOS (meta-analysis, 2024) | Reminds user that symptoms ≠ character |
+| Emotional flooding over small things | Neuroendocrine dysregulation (PMC, 2024) | Normalises intensity without dismissing it |
+| Fatigue and heaviness | 2024 Scientific Reports study confirms fatigue as PMOS symptom | Checks basics — food, water, sleep — before anything else |
+| Attachment anxiety and need for reassurance | Quality of life disruption from PMOS | Provides steady, consistent presence |
+| Feeling misunderstood | Documented in Indian qualitative PMOS research | Explicitly acknowledges this is a real and common experience |
+| Not wanting to talk but wanting to be heard | Common in emotional exhaustion | Offers "just listen" mode — user can type and Saathi only acknowledges |
+
+**Saathi interaction examples:**
+
+*User opens app, types: "I'm just feeling really heavy today"*
+> Saathi: "I hear you. That kind of heavy is real — not dramatic, not weakness. Just heavy. Do you want to talk about what happened, or did you just need to say it out loud?"
+
+*App detects user hasn't logged in 4 days:*
+> Saathi: "Hey, I noticed you've been away for a bit. No pressure at all — just wanted to check in. How are you doing?"
+
+*User logs fatigue three days in a row:*
+> Saathi: "You've been feeling tired for a few days now. Have you eaten today? Sometimes when everything feels like too much, the basics get forgotten — and that makes everything heavier."
+
+*User says: "I don't know why I cried today, it was over nothing"*
+> Saathi: "It wasn't nothing. Your body is dealing with a lot that other people can't see. The fact that you're feeling it this intensely doesn't make you dramatic — it makes you someone whose nervous system is working overtime. That's PMOS. That's real."
+
+**Technical implementation:**
+
+- **Phase 1 (launch):** Rule-based system. 80–100 pre-written responses mapped to emotional states and user inputs via keyword and sentiment detection. Zero API cost.
+- **Phase 2 (month 2–3):** Gemini API free tier layered on top. Users can type freely. Falls back to rule-based if API limit reached.
+- **Phase 3 (future):** Fine-tuned open-source model (Llama 3) trained on PMOS emotional conversations using accumulated user data (with full consent).
+
+---
+
+### Feature 3: Cycle Tracker
+
+**Purpose:** Track menstrual cycles accurately for PMOS users — which means handling irregular, skipped, and unpredictable cycles without shame or broken predictions.
+
+**Key requirements:**
+
+- Log period start and end date
+- Log daily symptoms: flow intensity, pain level, mood, energy, acne, bloating, fatigue, headache, sleep quality
+- Log medications and supplements
+- Cycle history view — last 6 months at a glance
+- Prediction displayed as a range, not a single date: *"Your next period is estimated between June 3–12"*
+- Clear label on all predictions: *"PMOS cycles are naturally irregular — this is an estimate, not a certainty"*
+- Works offline — data stored locally and synced when online
+- If cycle data is sparse (new user, irregular logger) — app adapts gracefully and never shows broken or alarming predictions
+
+**PMOS-specific design decisions:**
+- No language that treats irregular cycles as a failure or anomaly
+- No push notifications that say things like "Your period is late" — this causes anxiety
+- Skipped cycles are logged neutrally, not flagged as problems
+
+---
+
+### Feature 4: Daily Check-In
+
+**Purpose:** Build a 30-second daily habit that accumulates into personally meaningful health data over time.
+
+**Interaction:**
+Three questions, one tap each, every morning:
+
+1. How are you feeling today? (emoji scale: 😔 😐 🙂 😊 🌟)
+2. Any symptoms today? (one-tap chips: tired / bloated / anxious / headache / acne / cramps / none)
+3. How did you sleep? (poor / okay / well)
+
+**Output over time:**
+- Personal pattern report generated monthly
+- Insights like: *"You consistently feel lowest energy 4–6 days before your period"*
+- Correlations shown: *"Weeks where you slept poorly correlated with more acne days"*
+- All insights framed positively — never as failure, always as understanding
+
+---
+
+### Feature 5: Personal Insights Engine
+
+**Purpose:** Turn raw daily check-in data into personally meaningful observations that make the user feel genuinely understood.
+
+**How it works:**
+After 14+ days of data, the app begins generating weekly insights by detecting patterns in logged data. No AI required — pure conditional logic.
+
+**Example insights:**
+- *"Your energy is highest between days 8–13 of your cycle. This week falls in that window — good timing for bigger tasks."*
+- *"You've logged fatigue 5 times this week. This sometimes correlates with blood sugar dips. Consider a protein snack mid-afternoon."*
+- *"Your last 3 cycles were 34, 36, and 33 days apart. This is more consistent than your first month. Your body is showing a pattern."*
+
+**Design rule:** Insights never shame. They always inform. They are always framed as *"here is something interesting about you"* not *"here is something wrong with you."*
+
+---
+
+### Feature 6: Community
+
+**Purpose:** Connect PMOS users with each other for peer support, shared experience, and genuine understanding.
+
+**Structure:**
+- Weekly discussion topics posted by moderator (the founder initially)
+- Topic examples: *"How do you explain PMOS to someone who doesn't understand?"* / *"Share your go-to comfort meal that doesn't worsen symptoms"* / *"What's one thing you wish you'd known when first diagnosed?"*
+- Anonymous posting option — users can post without their display name
+- Milestone sharing — user can share achievements (30-day streak, first doctor visit logged) to community
+- Report and block functionality — required before launch
+
+**What community is not:**
+- Not open free chat — structured topics prevent the forum going silent
+- No direct messages at launch — reduces moderation burden
+
+---
+
+### Feature 7: Doctor Visit Preparation Tool
+
+**Purpose:** Help users walk into gynaecologist appointments prepared, with real data — instead of trying to remember months of symptoms in a 10-minute consultation.
+
+**What it generates:**
+- Last 3 months of cycle data summary
+- Most frequently logged symptoms
+- Mood and energy patterns
+- Current medications and supplements being tracked
+- Suggested questions based on user's profile: *"Based on your symptoms, consider asking about insulin resistance testing"*
+
+**Output:** Downloadable PDF or shareable screen the user shows the doctor directly.
+
+**Why this matters:** Indian women with PMOS report that doctor visits feel rushed and inadequate. This tool gives them the language and data to advocate for themselves.
+
+---
+
+### Feature 8: PMOS Education Hub
+
+**Purpose:** Give newly diagnosed users (and undiagnosed users who just got a screening result) a calm, honest, non-alarming introduction to PMOS.
+
+**Content structure:**
+- What PMOS actually is (in plain language, not medical jargon)
+- Common symptoms — physical and emotional, both acknowledged equally
+- What PMOS is not (not just ovarian cysts, not just a fertility issue, not caused by anything you did wrong)
+- Indian-specific content: foods that help, foods that worsen, lifestyle adjustments realistic for Indian households
+- Myth busting: common misconceptions addressed directly
+- When to see a doctor and what to say
+
+**Design principle:** All content reviewed for tone. Nothing that makes a user feel at fault for having PMOS.
+
+---
+
+## 6. User Identity System
+
+**Requirements:**
+- Display name (chosen by user — does not need to be real name)
+- Email and password authentication via Firebase Auth
+- Unique user ID generated automatically (invisible to user)
+- Profile stores: display name, age, diagnosis status (diagnosed / undiagnosed / unsure), notification preferences
+- Pseudonymous by default — community participation uses display name, not real name
+- Health data stored privately — never shared, never sold
+
+---
+
+## 7. Technical Stack
+
+| Layer | Technology | Why |
+|---|---|---|
+| Frontend (web) | React.js | Most learnable, most job-relevant, large community |
+| Styling | Tailwind CSS | Fast, clean, consistent design |
+| Backend / Auth | Firebase Auth | Handles user management with zero backend code |
+| Database | Firestore (Firebase) | Real-time, scalable, free tier sufficient for launch |
+| File storage | Firebase Storage | PDF reports, profile images |
+| Community chat | Firebase Realtime Database | Real-time message delivery |
+| Screening form | Typeform | Zero development required for Phase 1 |
+| PDF generation | jsPDF (JavaScript library) | Free, client-side PDF generation |
+| Deployment | Vercel | Free, instant deployment, custom domain support |
+| Saathi Phase 2 | Google Gemini API (free tier) | 1M tokens/day free, no credit card required |
+
+---
+
+## 8. Data Privacy and Security
+
+- All health data stored in Firebase with strict security rules — users can only read their own data
+- No health data sold, shared, or used for advertising
+- Community posts that are not anonymous are stored with display name only — no real identity linked
+- PDF reports generated client-side where possible — no health data sent to third-party servers
+- Privacy policy published before launch — required for Play Store and for user trust
+- Explicit consent collected before any data storage begins
+
+---
+
+## 9. Design Principles
+
+1. **Shame-free language throughout** — No "your period is late." No weight loss goals. No BMI tracking unless user explicitly requests.
+2. **Warmth over clinical tone** — Every message sounds like it was written by someone who understands, not a medical textbook.
+3. **Irregular is normal here** — The app is built for PMOS users. Irregular cycles are the expected input, not an error state.
+4. **India-first** — Food, language, cultural context, family dynamics — all content reflects Indian reality.
+5. **Honest about limitations** — The screening tool does not diagnose. Saathi is not a therapist. The app is not a substitute for medical care. All of this is communicated clearly.
+
+---
+
+## 10. Revenue Model
+
+| Stream | How it works | Timeline |
+|---|---|---|
+| Freemium web app | Free core features, paid advanced features ₹99–199/month | Phase 2 |
+| School partnerships | ₹5,000–15,000/year per school for screening tool + aggregate dashboard | Phase 1 pilot → Phase 2 revenue |
+| Gynaecologist referrals | Partner clinics pay ₹200–500 per verified referral | Phase 2 |
+| Health brand partnerships | PMOS-relevant supplement and nutrition brands | Phase 3 |
+
+---
+
+## 11. Success Metrics
+
+| Metric | Target (6 months) | Target (12 months) |
+|---|---|---|
+| Screening form completions | 500 | 5,000 |
+| App registered users | 200 | 2,000 |
+| Daily active users | 50 | 500 |
+| Day-30 retention | 25% | 35% |
+| Schools onboarded | 3 | 15 |
+| Community posts per week | 10 | 50 |
+
+---
+
+## 12. Development Roadmap
+
+### Phase 1 — Research and Design (Weeks 1–4)
+- [x] User personas documented
+- [x] Competitor analysis completed
+- [x] PRD written
+- [ ] Firestore schema designed
+- [ ] Figma wireframes for all screens
+- [ ] Scoring algorithm finalised on paper
+
+### Phase 2 — Screening Tool (Weeks 5–6)
+- [ ] Typeform screening form built and tested
+- [ ] PDF report generator built
+- [ ] Pilot deployment in 1 school or college batch
+- [ ] First 50 screening results collected and reviewed
+
+### Phase 3 — Core Web App (Weeks 7–16)
+- [ ] Firebase project setup
+- [ ] Authentication and user profile
+- [ ] Cycle tracker module
+- [ ] Daily check-in
+- [ ] Saathi rule-based system (Phase 1)
+- [ ] Community with weekly topics
+- [ ] Basic insights engine
+
+### Phase 4 — Polish and Testing (Weeks 17–18)
+- [ ] Unit tests for scoring algorithm
+- [ ] User testing with 5 real users
+- [ ] Firebase security rules audit
+- [ ] Privacy policy and terms of service published
+
+### Phase 5 — Launch (Weeks 19–20)
+- [ ] Deploy to Vercel
+- [ ] Custom domain set up
+- [ ] First 100 users campaign
+- [ ] Analytics configured
+- [ ] Instagram page active with founder content
+
+### Phase 6 — Mobile App (Post 500 users)
+- [ ] Flutter conversion
+- [ ] Play Store submission
+- [ ] Gemini API integration for Saathi Phase 2
+
+---
+
+## 13. Out of Scope (Version 1)
+
+The following features are deliberately excluded from Version 1 to maintain focus and quality:
+
+- Live doctor consultations (requires medical licensing)
+- Calorie or weight tracking (risk of harm for users with eating disorders)
+- AI diagnosis of any kind (legally prohibited)
+- Hindi language support (added in Phase 2 via i18n)
+- Direct messaging between users (added in Phase 2)
+- iOS App Store launch (Android first)
+
+---
+
+## 14. Related Documents
+
+- [personas.md](personas.md) — 10 research-backed user personas
+- [competitor-analysis.md](competitor-analysis.md) — Full competitor research with citations
+- [architecture.md](architecture.md) — System architecture and Firestore schema *(coming next)*
+- [scoring-algorithm.md](scoring-algorithm.md) — PMOS risk scoring logic *(coming next)*
+
+---
+
+*CycleWise — Built by someone who needed it. For everyone who does.*
