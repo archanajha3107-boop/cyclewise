@@ -10,6 +10,9 @@ import Sakhi from './pages/app/Sakhi';
 import DailyCheckIn from './pages/app/DailyCheckIn';
 import DoctorPrep from './pages/app/DoctorPrep';
 import Education from './pages/app/Education';
+import Community from './pages/app/Community';
+import Profile from './pages/app/Profile';
+import Settings from './pages/app/Settings';
 
 import {
   BrowserRouter,
@@ -198,6 +201,32 @@ function App() {
   element={
     user
       ? <Education />
+      : <Navigate to="/login" />
+  }
+/>
+<Route
+  path="/community"
+  element={
+    user
+      ? <Community />
+      : <Navigate to="/login" />
+  }
+/>
+
+<Route
+  path="/profile"
+  element={
+    user
+      ? <Profile />
+      : <Navigate to="/login" />
+  }
+/>
+
+<Route
+  path="/settings"
+  element={
+    user
+      ? <Settings />
       : <Navigate to="/login" />
   }
 />
