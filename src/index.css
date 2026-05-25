@@ -1,13 +1,46 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #FAF7F4;
+    color: #2D2424;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  .btn-primary {
+    @apply bg-mauve text-white rounded-pill px-6 py-3 font-sans font-medium text-sm w-full transition-all duration-200 hover:bg-mauve-dark active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply border border-mauve text-mauve rounded-pill px-6 py-3 font-sans font-medium text-sm w-full transition-all duration-200 hover:bg-blush active:scale-95;
+  }
+
+  .card {
+    @apply bg-blush rounded-2xl p-4 shadow-card;
+  }
+
+  .input-field {
+    @apply w-full bg-blush border-0 rounded-xl px-4 py-3 text-charcoal placeholder-muted-rose font-sans text-sm focus:ring-2 focus:ring-mauve focus:outline-none;
+  }
+
+  .screen {
+    @apply min-h-screen bg-cream px-5 py-6 max-w-sm mx-auto;
+  }
+
+  .page-title {
+    @apply font-playfair text-2xl font-bold text-charcoal;
+  }
+
+  .section-label {
+    @apply text-xs font-medium uppercase tracking-widest text-muted-rose;
+  }
 }
