@@ -13,6 +13,9 @@ import Education from './pages/app/Education';
 import Community from './pages/app/Community';
 import Profile from './pages/app/Profile';
 import Settings from './pages/app/Settings';
+import ScreeningLanding from './pages/screening/ScreeningLanding';
+import ScreeningQuestion from './pages/screening/ScreeningQuestion';
+import ScreeningResult from './pages/screening/ScreeningResult';
 
 import {
   BrowserRouter,
@@ -230,6 +233,9 @@ function App() {
       : <Navigate to="/login" />
   }
 />
+<Route path="/screening" element={<ScreeningLanding />} />
+<Route path="/screening/questions" element={<ScreeningQuestion />} />
+<Route path="/screening/result" element={<ScreeningResult />} />
       </Routes>
 
     </BrowserRouter>
