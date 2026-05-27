@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from '../../firebase/config';
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
+import { 
+  collection, addDoc, onSnapshot, orderBy,
+  query, serverTimestamp, doc, getDoc, updateDoc
 } from 'firebase/firestore';
+
 import Navbar from '../../components/Navbar';
 
 const WEEKLY_TOPIC =
@@ -59,6 +56,19 @@ export default function Community() {
     }
     setPosting(false);
   }
+
+  async function handleReaction(postId, type) {
+  try {
+    const postRef = doc(db, 'communityPosts', postId);
+    const postSnap = await getDoc(postRef);
+    if (postSnap.exists()) {
+      const current = postSnap.data()[type] || 0;
+      await updateDoc(postRef, { [type]: current + 1 });
+    }
+  } catch (error) {
+    console.log('Reaction error:', error);
+  }
+}
 
   return (
     <div className="screen pb-24">
@@ -181,13 +191,19 @@ export default function Community() {
               {post.text}
             </p>
             <div className="flex gap-4 pt-1">
-              <span className="text-xs text-muted-rose">
-                ❤️ {post.hearts || 0}
-              </span>
-              <span className="text-xs text-muted-rose">
-                🤗 {post.hugs || 0}
-              </span>
-            </div>
+  <button
+    onClick={() => handleReaction(post.id, 'hearts')}
+    className="flex items-center gap-1 text-xs text-muted-rose hover:text-terra transition-colors"
+  >
+    ❤️ {post.hearts || 0}
+  </button>
+  <button
+    onClick={() => handleReaction(post.id, 'hugs')}
+    className="flex items-center gap-1 text-xs text-muted-rose hover:text-mauve transition-colors"
+  >
+    🤗 {post.hugs || 0}
+  </button>
+</div>
           </div>
         ))}
       </div>

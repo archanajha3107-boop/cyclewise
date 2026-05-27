@@ -1,15 +1,44 @@
 import React, { useState } from 'react';
 
-import { auth, db } from '../../firebase/config';
-
-import {
-  doc,
-  setDoc
-} from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 export default function Goals() {
 
-  const [goal, setGoal] = useState('');
+  const navigate = useNavigate();
+
+  const [selectedGoals, setSelectedGoals] =
+    useState([]);
+
+  const [saving, setSaving] =
+    useState(false);
+
+  const goals = [
+    'Track periods',
+    'Improve health',
+    'Reduce symptoms',
+    'Learn about PMOS',
+  ];
+
+  function toggleGoal(goal) {
+
+    if (selectedGoals.includes(goal)) {
+
+      setSelectedGoals(
+        selectedGoals.filter(
+          (g) => g !== goal
+        )
+      );
+
+    } else {
+
+      setSelectedGoals([
+        ...selectedGoals,
+        goal,
+      ]);
+
+    }
+
+  }
 
   async function handleSubmit(e) {
 
@@ -17,23 +46,17 @@ export default function Goals() {
 
     try {
 
-      const user = auth.currentUser;
+      setSaving(true);
 
-      await setDoc(
-        doc(db, 'users', user.uid),
-        {
-          goal,
-        },
-        { merge: true }
-      );
-
-      alert('Goals saved!');
+      navigate('/meet-sakhi');
 
     } catch (error) {
 
       alert(error.message);
 
     }
+
+    setSaving(false);
 
   }
 
@@ -42,7 +65,7 @@ export default function Goals() {
     <div className="screen">
 
       <h1 className="page-title mb-6">
-        Your Goal
+        Your Goals
       </h1>
 
       <form
@@ -50,35 +73,39 @@ export default function Goals() {
         className="space-y-4"
       >
 
-        <select
-          className="input-field"
-          value={goal}
-          onChange={(e) => setGoal(e.target.value)}
-        >
+        {goals.map((goal) => (
 
-          <option value="">
-            Select your goal
-          </option>
+          <button
+            type="button"
+            key={goal}
+            onClick={() =>
+              toggleGoal(goal)
+            }
+            className={`w-full p-4 rounded-xl border ${
+              selectedGoals.includes(goal)
+                ? 'bg-pink-200'
+                : 'bg-white'
+            }`}
+          >
 
-          <option value="track-cycle">
-            Track my cycle
-          </option>
+            {goal}
 
-          <option value="understand-symptoms">
-            Understand symptoms
-          </option>
+          </button>
 
-          <option value="improve-health">
-            Improve hormonal health
-          </option>
-
-        </select>
+        ))}
 
         <button
           type="submit"
           className="btn-primary"
+          disabled={saving}
         >
-          Continue
+
+          {
+            saving
+              ? 'Saving...'
+              : 'Continue'
+          }
+
         </button>
 
       </form>
@@ -86,4 +113,5 @@ export default function Goals() {
     </div>
 
   );
+
 }
