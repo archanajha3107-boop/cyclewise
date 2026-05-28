@@ -40,53 +40,52 @@ export default function Sakhi() {
   }, [messages, typing]);
 
   async function getSakhiResponse(userMessage, history) {
-    if (justListen) return "I hear you. I'm here.";
+  try {
 
-    try {
-      const conversationHistory = history
-        .filter(m => m.sender !== 'sakhi' || history.indexOf(m) > 0)
-        .map(m => ({
-          role: m.sender === 'user' ? 'user' : 'model',
-          parts: [{ text: m.text }]
-        }));
+    const conversationHistory = history.map((msg) => ({
+      role: msg.sender === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.text }]
+    }));
 
-      conversationHistory.push({
-        role: 'user',
-        parts: [{ text: userMessage }]
-      });
+    conversationHistory.push({
+      role: 'user',
+      parts: [{ text: userMessage }]
+    });
 
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.REACT_APP_GEMINI_API_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            system_instruction: {
-              parts: [{ text: SAKHI_SYSTEM_PROMPT }]
-            },
-            contents: conversationHistory,
-            generationConfig: {
-              temperature: 0.85,
-              maxOutputTokens: 150,
-            }
-          })
-        }
-      );
-
-      const data = await response.json();
-
-      if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-        return data.candidates[0].content.parts[0].text;
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.REACT_APP_GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: SAKHI_SYSTEM_PROMPT }]
+          },
+          contents: conversationHistory,
+          generationConfig: {
+            temperature: 0.85,
+            maxOutputTokens: 150,
+          }
+        })
       }
+    );
 
-      return "I'm here with you. Can you tell me more about what's going on?";
+    const data = await response.json();
 
-    } catch (error) {
-      console.log('Gemini error:', error);
-      return "I'm here. Something felt off on my end — can you say that again?";
+    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+      return data.candidates[0].content.parts[0].text;
     }
-  }
 
+    return "I'm here with you. Can you tell me more about what's going on?";
+
+  } catch (error) {
+    console.log('Gemini error:', error);
+    console.log('Error details:', JSON.stringify(error));
+
+    return "I'm here. Something felt off on my end — can you say that again?";
+  }
+}
+      
   async function handleSend() {
     if (!input.trim() || typing) return;
 

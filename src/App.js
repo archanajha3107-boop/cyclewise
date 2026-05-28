@@ -16,6 +16,10 @@ import Settings from './pages/app/Settings';
 import ScreeningLanding from './pages/screening/ScreeningLanding';
 import ScreeningQuestion from './pages/screening/ScreeningQuestion';
 import ScreeningResult from './pages/screening/ScreeningResult';
+import Welcome from './pages/auth/Welcome';
+import Splash from './pages/auth/Splash';
+
+
 
 import {
   BrowserRouter,
@@ -73,14 +77,13 @@ function App() {
 
         {/* Auth */}
 
-        <Route
-          path="/"
-          element={
-            user
-              ? <Navigate to="/home" />
-              : <SignUp />
-          }
-        />
+        <Route path="/" element={<Splash />} />
+
+<Route
+  path="/welcome"
+  element={<Welcome />}
+/>
+        
 
         <Route
           path="/login"
