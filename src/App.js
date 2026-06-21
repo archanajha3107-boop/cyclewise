@@ -18,6 +18,10 @@ import ScreeningQuestion from './pages/screening/ScreeningQuestion';
 import ScreeningResult from './pages/screening/ScreeningResult';
 import Welcome from './pages/auth/Welcome';
 import Splash from './pages/auth/Splash';
+import WellnessDashboard from './pages/app/WellnessDashboard';
+import WellnessSetup from './pages/app/WellnessSetup';
+import EditProfile from './pages/app/EditProfile';
+import ScreeningPDF from './pages/screening/ScreeningPDF';
 
 
 
@@ -132,6 +136,15 @@ function App() {
       : <Navigate to="/login" />
   }
 />
+<Route
+  path="/profile/edit"
+  element={user ? <EditProfile /> : <Navigate to="/login" />}
+/>
+
+<Route
+  path="/screening/report"
+  element={<ScreeningPDF />}
+/>
         <Route
   path="/onboarding/health"
   element={
@@ -226,6 +239,14 @@ function App() {
       ? <Profile />
       : <Navigate to="/login" />
   }
+/>
+<Route
+  path="/wellness"
+  element={user ? <WellnessDashboard /> : <Navigate to="/login" />}
+/>
+<Route
+  path="/wellness-setup"
+  element={user ? <WellnessSetup /> : <Navigate to="/login" />}
 />
 
 <Route

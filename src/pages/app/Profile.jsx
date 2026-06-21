@@ -5,6 +5,7 @@ import { signOut } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 
+
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const navigate = useNavigate();

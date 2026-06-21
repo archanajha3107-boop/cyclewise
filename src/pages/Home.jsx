@@ -92,13 +92,20 @@ export default function Home() {
     <div className="screen pb-24">
 
       {/* Greeting */}
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <p className="text-muted-rose text-sm">{greeting},</p>
-          <h1 className="font-playfair text-2xl font-bold text-charcoal">
-            {firstName} 🌸
-          </h1>
-        </div>
+<div className="flex items-center justify-between mb-4">
+  <div>
+    <p className="text-muted-rose text-sm">{greeting},</p>
+    <div className="flex items-center gap-2">
+      <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
+        <path d="M50 10 C28 10 10 28 10 50 C10 72 28 90 50 90 C38 80 30 66 30 50 C30 34 38 20 50 10Z" fill="#9B6B8A" opacity="0.9"/>
+        <path d="M52 55 C52 45 56 38 60 35 C60 35 63 45 58 55Z" fill="#C4836A" opacity="0.95"/>
+        <path d="M52 55 C48 46 43 41 40 40 C40 40 42 50 50 56Z" fill="#C4836A" opacity="0.75"/>
+      </svg>
+      <h1 className="font-playfair text-2xl font-bold text-charcoal">
+        {firstName}
+      </h1>
+    </div>
+  </div>
         <button
           onClick={() => navigate('/profile')}
           className="w-10 h-10 rounded-full bg-mauve flex items-center justify-center"
